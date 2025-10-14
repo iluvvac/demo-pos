@@ -1,15 +1,26 @@
-import type { ReactNode } from "react"
-import Link from "next/link"
-import { redirect } from "next/navigation"
-import { getSessionAndRole } from "@/lib/auth"
-import { cn } from "@/lib/utils"
+import type { ReactNode } from "react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getSessionAndRole } from "@/lib/auth";
+import { cn } from "@/lib/utils";
 
-const STAFF_ROLES = ["ADMIN", "CS", "EDITOR", "KASIR", "PRODUKSI", "GUDANG"] as const
+const STAFF_ROLES = [
+  "ADMIN",
+  "CS",
+  "EDITOR",
+  "KASIR",
+  "PRODUKSI",
+  "GUDANG",
+] as const;
 
-export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const { user, role } = await getSessionAndRole()
+export default async function AdminLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { user, role } = await getSessionAndRole();
   if (!user || !role || !STAFF_ROLES.includes(role as any)) {
-    redirect("/auth/login")
+    redirect("/auth/login");
   }
 
   const nav = [
@@ -20,18 +31,37 @@ export default async function AdminLayout({ children }: { children: ReactNode })
     { href: "/admin/production", label: "Produksi" },
     { href: "/admin/pickup", label: "Pengambilan" },
     { href: "/admin/dashboard", label: "Dashboard" },
-  ]
+  ];
 
   return (
-    <div className="min-h-dvh">
+    <div
+      className="min-h-dvh"
+      style={{
+        backgroundImage: "url('/dal-logo.png')",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "contain",
+        opacity: 1, // Less aggressive
+        zIndex: 0,
+      }}
+    >
       <header className="border-b">
         <div className="container mx-auto p-4 flex items-center justify-between">
           <Link href="/admin/dashboard" className="font-semibold">
-            Panel Admin
+            <img
+              src="/dal-logo.png"
+              alt="DALTEK Logo"
+              style={{ height: "32px", width: "auto" }}
+            />
           </Link>
+
           <nav className="flex items-center gap-3 text-sm">
             {nav.map((n) => (
-              <Link key={n.href} href={n.href} className={cn("hover:underline")}>
+              <Link
+                key={n.href}
+                href={n.href}
+                className={cn("hover:underline")}
+              >
                 {n.label}
               </Link>
             ))}
@@ -43,5 +73,5 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       </header>
       <main className="container mx-auto p-6">{children}</main>
     </div>
-  )
+  );
 }
