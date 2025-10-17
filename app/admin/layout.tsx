@@ -34,44 +34,50 @@ export default async function AdminLayout({
   ];
 
   return (
-    <div
-      className="min-h-dvh"
-      style={{
-        backgroundImage: "url('/dal-logo.png')",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-        backgroundSize: "contain",
-        opacity: 1, // Less aggressive
-        zIndex: 0,
-      }}
-    >
-      <header className="border-b">
-        <div className="container mx-auto p-4 flex items-center justify-between">
-          <Link href="/admin/dashboard" className="font-semibold">
-            <img
-              src="/dal-logo.png"
-              alt="DALTEK Logo"
-              style={{ height: "32px", width: "auto" }}
-            />
-          </Link>
-
-          <nav className="flex items-center gap-3 text-sm">
-            {nav.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className={cn("hover:underline")}
-              >
-                {n.label}
-              </Link>
-            ))}
-            <Link href="/auth/logout" className="text-red-600 hover:underline">
-              Logout
+    <>
+      {/* Content Layout */}
+      <div className="min-h-dvh flex flex-col">
+        <header className="border-b">
+          <div className="container mx-auto p-4 flex items-center justify-between">
+            <Link href="/admin/dashboard" className="font-semibold">
+              <img
+                src="/dal-logo.png"
+                alt="DALTEK Logo"
+                style={{ height: "32px", width: "auto" }}
+              />
             </Link>
-          </nav>
-        </div>
-      </header>
-      <main className="container mx-auto p-6">{children}</main>
-    </div>
+            <nav className="flex items-center gap-3 text-sm">
+              {nav.map((n) => (
+                <Link key={n.href} href={n.href} className={cn("hover:underline")}>
+                  {n.label}
+                </Link>
+              ))}
+              <Link href="/auth/logout" className="text-red-600 hover:underline">
+                Logout
+              </Link>
+            </nav>
+          </div>
+        </header>
+        <main className="container mx-auto p-6">{children}</main>
+      </div>
+
+      {/* Overlay as SIBLING */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundImage: "url('/dal-logo.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "contain",
+          opacity: 0.3,
+          zIndex: 9999,
+          pointerEvents: "none",
+        }}
+      ></div>
+    </>
   );
 }

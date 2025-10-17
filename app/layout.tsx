@@ -20,9 +20,28 @@ export default function RootLayout({
   return (
     <html lang="id" className="antialiased">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
+        {/* Overlay/WATERMARK: place here for all pages */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundImage: "url('/dal-logo.png')",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "contain",
+            opacity: 0.2,
+            zIndex: 9999,
+            pointerEvents: "none",
+          }}
+          aria-hidden="true" // accessibility best practice
+        />
         <Suspense fallback={null}>{children}</Suspense>
         <Analytics />
       </body>
     </html>
   )
 }
+
