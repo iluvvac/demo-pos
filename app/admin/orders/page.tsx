@@ -38,6 +38,13 @@ export default function OrdersPage() {
           <CardTitle>Input Order (CS/Editor)</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+
+          {/* Disabled Branch Input */}
+          <div className="space-y-2">
+            <Label>Cabang</Label>
+            <Input value="Kelapa Gading" disabled />
+          </div>
+
           {/* Recent queue helper */}
           <div className="space-y-2">
             <Label>Pilih dari Antrian Terbaru</Label>
@@ -54,11 +61,13 @@ export default function OrdersPage() {
               </SelectContent>
             </Select>
           </div>
+
           {/* Original queue input */}
           <div className="space-y-2">
             <Label>Nomor Antrian</Label>
             <Input value={queueNumber} onChange={(e) => setQueueNumber(e.target.value)} placeholder="A-001" />
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label>Jenis Produk</Label>
@@ -73,6 +82,7 @@ export default function OrdersPage() {
                 </SelectContent>
               </Select>
             </div>
+
             <div className="space-y-2">
               <Label>Ukuran</Label>
               <Select value={ukuran} onValueChange={setUkuran}>
@@ -86,23 +96,28 @@ export default function OrdersPage() {
                 </SelectContent>
               </Select>
             </div>
+
             <div className="space-y-2">
               <Label>Jumlah</Label>
               <Input type="number" value={jumlah} onChange={(e) => setJumlah(Number.parseInt(e.target.value || "1"))} />
             </div>
+
             <div className="space-y-2">
               <Label>Bahan</Label>
               <Input value={bahan} onChange={(e) => setBahan(e.target.value)} />
             </div>
+
             <div className="space-y-2">
               <Label>Finishing</Label>
               <Input value={finishing} onChange={(e) => setFinishing(e.target.value)} />
             </div>
           </div>
+
           <div className="space-y-2">
             <Label>Catatan</Label>
             <Textarea value={catatan} onChange={(e) => setCatatan(e.target.value)} placeholder="Detail lain..." />
           </div>
+
           <div className="flex items-center gap-3">
             <Button
               variant="secondary"
@@ -115,6 +130,7 @@ export default function OrdersPage() {
             </Button>
             {price !== null && <div className="text-lg font-semibold">Rp {price.toLocaleString("id-ID")}</div>}
           </div>
+
           <div className="flex items-center gap-3">
             <Button
               onClick={async () => {
@@ -129,6 +145,7 @@ export default function OrdersPage() {
                     finishing,
                     catatan,
                     price,
+                    cabang: "Kelapa Gading", // optional if you want to send it to backend
                   })
                   setCreated(res)
                 } catch (e: any) {
@@ -143,6 +160,7 @@ export default function OrdersPage() {
               Simpan Order
             </Button>
           </div>
+
           {errMsg && <div className="text-sm text-red-500">{errMsg}</div>}
           {created && (
             <div className="text-sm text-muted-foreground">
